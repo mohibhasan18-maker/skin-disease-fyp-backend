@@ -1,13 +1,16 @@
 # Backend Project
 
-Simple Python backend that uses a Keras model. This repository contains `main.py` which runs the project and the required model files.
+FastAPI backend for skin disease detection with user authentication, patient and doctor portals.
 
 ## Prerequisites
 - Python 3.8+
+- PostgreSQL
 - pip
 
 ## Setup
-1. (Optional) Create a virtual environment:
+1. Install PostgreSQL and create a database named `skin_detection` with user `user` and password `password`. (Or update DATABASE_URL in database.py)
+
+2. Create a virtual environment (optional):
 
    Windows (PowerShell):
    ```powershell
@@ -15,28 +18,40 @@ Simple Python backend that uses a Keras model. This repository contains `main.py
    .\.venv\Scripts\Activate.ps1
    ```
 
-2. Install dependencies:
+3. Install dependencies:
 
 ```powershell
 pip install -r requirements.txt
 ```
 
 ## Run
-Start the application with:
+1. Start the application:
 
 ```powershell
-python main.py
+uvicorn main:app --reload
 ```
 
-The script will load model files (if present) such as `model.h5` or `weights.h5` from the project root.
+The API will be available at `http://localhost:8000/api`
+
+2. Seed sample data:
+
+```powershell
+python seed.py
+```
+
+## API Documentation
+- Interactive docs: http://localhost:8000/api/docs
+- ReDoc: http://localhost:8000/api/redoc
+
+## Sample Users
+- Patient: patient1@example.com / password
+- Doctor: doctor1@example.com / password
 
 ## Files
-- `main.py` — application entry point
+- `main.py` — Main application
+- `models.py` — Database models
+- `auth.py` — Authentication utilities
+- `database.py` — Database connection
+- `seed.py` — Sample data seeder
 - `requirements.txt` — Python dependencies
-- `model.h5`, `weights.h5` — ML model files (ignored by .gitignore by default)
-
-## Notes
-- Large model files are ignored by the provided `.gitignore`. If you want to include a model in the repo, remove the corresponding entry from `.gitignore` before committing.
-
-## License
-Add a license if you plan to make this public.
+- `final_model.h5` — ML model file
