@@ -9,6 +9,7 @@ from PIL import Image
 import io
 import os
 import uuid
+import urllib.request
 from datetime import datetime, timedelta
 from typing import List, Optional
 
@@ -69,9 +70,15 @@ GAP_THRESHOLD = 0.2
 # Model Path
 # -----------------------------
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "final_modelv2.h5")
+MODEL_URL = os.getenv("MODEL_URL")
 
 if not os.path.exists(MODEL_PATH):
-    raise FileNotFoundError("final_modelv2.h5 not found!")
+    if not MODEL_URL:
+        raise FileNotFoundError("final_modelv2.h5 not found and MODEL_URL is not set!")
+
+    print("Downloading model...")
+    urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
+    print("Model downloaded successfully.")
 
 # -----------------------------
 # Load Model (ONCE)

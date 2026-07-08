@@ -76,6 +76,7 @@ python seed.py
 - Build command: `pip install -r requirements.txt`
 - Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
 - Set `SECRET_KEY` in Render environment variables.
+- If `final_modelv2.h5` is not committed, set `MODEL_URL` to a direct download URL for the model file.
 - Optional: set `FRONTEND_URLS` if you need to allow more frontend domains. The default allows `http://localhost:3000` and `https://skin-disease-rho.vercel.app`.
 - The deployed model file is `final_modelv2.h5`.
 
