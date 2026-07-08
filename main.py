@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, File, UploadFile, HTTPException, Depends, status, Form
+﻿from fastapi import FastAPI, APIRouter, File, UploadFile, HTTPException, Depends, status, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer
 from sqlalchemy.orm import Session
@@ -32,7 +32,14 @@ router = APIRouter(prefix="/api")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Next.js frontend
+    allow_origins=[
+        origin.strip()
+        for origin in os.getenv(
+            "FRONTEND_URLS",
+            "http://localhost:3000,https://skin-disease-rho.vercel.app",
+        ).split(",")
+        if origin.strip()
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -64,7 +71,7 @@ GAP_THRESHOLD = 0.2
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "final_modelv2.h5")
 
 if not os.path.exists(MODEL_PATH):
-    raise FileNotFoundError("final_model.h5 not found!")
+    raise FileNotFoundError("final_modelv2.h5 not found!")
 
 # -----------------------------
 # Load Model (ONCE)
